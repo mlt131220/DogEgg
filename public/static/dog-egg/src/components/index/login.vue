@@ -22,6 +22,10 @@
 </template>
 
 <script>
+  import {Message} from "element-ui";
+  import router from "../../router";
+  import store from "../../vuex/store";
+
   export default {
     name: "login",
     data() {
@@ -48,7 +52,24 @@
           if (valid) {
             this.$ajax.login(this.form)
               .then(res=>{
-                console.log(res)
+                let data = res.data;
+                if(data.state == 0 ){
+                  Message({
+                    showClose: true,
+                    message: data.message,
+                    type: 'error'
+                  });
+                }else{
+                  Message({
+                    showClose: true,
+                    message: data.message,
+                    type: 'success'
+                  });
+                  store.commit('setToken',data.token);
+                  setTimeout(function () {
+                    router.replace('/admin'); //进入后台
+                  },1000)
+                }
               })
               .catch(() => console.log('promise catch err')); //捕获异常
           } else {

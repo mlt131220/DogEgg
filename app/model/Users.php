@@ -4,6 +4,7 @@
 namespace app\model;
 
 
+use app\controller\Token;
 use think\Model;
 
 class Users extends Model
@@ -14,6 +15,8 @@ class Users extends Model
         'username'        => 'string',
         'password'      => 'string',
         'last_login_time'       => 'datetime',
+        'token'       => 'string',
+        'token_timeout'       => 'int',
         'create_time' => 'datetime',
         'update_time' => 'datetime',
     ];
@@ -22,14 +25,22 @@ class Users extends Model
         $user=$this->where('username',$data['username'])->find();
         if($user){
             if($user['password'] == md5($data['password'])){
-                session('username',$user['username']);
-                session('uid',$user['id']);
-                return json(array(1,"登陆成功"));
+                //生成token
+                $to = new Token();
+                $token = $to->create_token($data['username']);
+                $user->token = $token;
+                $user->token_timeout = time() + 604800000;//有效期为1周
+                $res = $user->save();
+                if($res){
+                    return json(['state' => 1,'message'=>'登陆成功','token'=>$token],200);
+                }else{
+                    return json(['state' => 0,'message'=>'系统错误，请重试！'],200);
+                }
             }else{
-                return json(array(0,"密码错误"));
+                return json(['state' => 0,'message'=>'密码错误'],200);
             }
         }else{
-            return json(array(0,"用户不存在"));
+            return json(['state' => 0,'message'=>'用户不存在'],200);
         }
     }
 }

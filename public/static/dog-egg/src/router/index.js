@@ -18,6 +18,10 @@ export default new Router({
     {
       path: '/refresh',
       component: Refresh
+    },
+    {
+      path: '/admin',
+      component: Refresh
     }
   ]
 })
