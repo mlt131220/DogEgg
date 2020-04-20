@@ -4,7 +4,7 @@
 
     <a href="https://github.com/mlt131220/DogEgg" target="_blank">
       <img width="149" height="149"
-           src="../assets/fork_github.png"
+           src="../../assets/fork_github.png"
            alt="Fork me on GitHub"
            style="position: fixed;bottom: 0;right: 0;"
            v-if="screenWidth > 991">
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import store from '../vuex/store';
+  import store from '../../vuex/store';
   import {mapMutations,mapActions} from 'vuex'
 
   export default {

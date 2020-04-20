@@ -1,18 +1,23 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Aside from '../components/Aside'
-import Header from '../components/Header'
+import Index from '../components/index/index'
+import Login from '../components/index/login'
+import Refresh from '../components/refresh'
 
 Vue.use(Router);
 
 export default new Router({
-    routes: [
-        {
-            path: '/',
-            components:{
-              aside:Aside,
-              header:Header
-            }
-        }
-    ]
+  routes: [
+    {
+      path: '/',
+      component: Index
+    }, {
+      path: '/login',
+      component: Login
+    },
+    {
+      path: '/refresh',
+      component: Refresh
+    }
+  ]
 })

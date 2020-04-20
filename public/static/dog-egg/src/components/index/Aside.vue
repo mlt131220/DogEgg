@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import store from '../vuex/store'
+  import store from '@/vuex/store'
   import AsideMenu from "./AsideMenu";
 
   export default {

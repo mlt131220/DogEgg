@@ -10,10 +10,10 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-Route::get('/','index/index');
+Route::post('/login','index/login');
 
-Route::get('think', function () {
-    return 'hello,ThinkPHP6!';
+Route::group('/token',function (){
+   Route::get('403','token/token403');
+   Route::get('401','token/token401');
 });
 
-Route::get('hello/:name', 'index/hello');

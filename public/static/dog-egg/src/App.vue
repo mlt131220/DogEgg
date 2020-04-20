@@ -1,55 +1,40 @@
 <template>
-  <div style="height: 100%">
+  <div id="app">
     <el-scrollbar style="height:100%">
-      <el-row type="flex">
-        <el-col class="hidden-sm-and-down" :span="asideIsCollapse ? 1 : 4">
-          <router-view name="aside"></router-view>
-        </el-col>
-        <el-col :span="screenWidth > 991 ? (asideIsCollapse ? 23 : 20) : 24">
-          <div class="container">
-            <div class="header">
-              <router-view :name="screenWidth > 991 ? 'header' : 'aside'"></router-view>
-            </div>
-            <div class="main">
-              <router-view name="main"></router-view>
-            </div>
-            <div class="footer"></div>
-          </div>
-        </el-col>
-      </el-row>
+      <!--      断网处理-->
+      <transition name="el-zoom-in-top">
+        <div v-if="!network" id="network">
+          <i class="el-icon-warning-outline"></i>&nbsp;
+          <span style="font-size: 13px;position: relative;bottom: 1px;">哦豁，没网咯~</span>
+          <el-button type="danger" size="small" style="float: right" plain @click="onRefresh">刷新</el-button>
+        </div>
+      </transition>
+
+      <transition name="fade" mode="out-in">
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
+      </transition>
     </el-scrollbar>
   </div>
 </template>
 
 <script>
-  import store from '@/vuex/store'
+  import store from './vuex/store';
 
   export default {
-    name: 'App',
-    data() {
-      return {}
-    },
-    methods: {},
-    mounted () {
-      const that = this
-      window.onresize = () => {
-        return (() => {
-          this.$store.commit('setScreenWidth',document.documentElement.clientWidth);
-          if( this.screenWidth < 992 ){
-            this.$store.commit('isCollapseBool',false);
-          }
-        })()
+    name: "App",
+    computed: {
+      network() {
+        return store.state.network;
       }
     },
-    computed:{
-      screenWidth(){
-        return this.$store.state.screenWidth;
-      },
-      asideIsCollapse(){
-        return this.$store.state.asideIsCollapse;
+    methods: {
+      // 通过跳转一个空页面再返回的方式来实现刷新当前页面数据的目的
+      onRefresh() {
+        this.$router.replace('/refresh')
       }
-    },
-    store
+    }
   }
 </script>
 
@@ -57,28 +42,35 @@
   * {
     padding: 0;
     margin: 0;
+    font-family: Arimo, "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 
-  html, body, .el-scrollbar__view, .el-row, .el-col, .container {
+  html, body, #app {
+    width: 100%;
     height: 100%;
   }
 
+  #network {
+    background: #FEF0F0;
+    color: #F56C6C;
+    border: 1px solid #FDE2E2;
+    border-radius: 5px;
+    min-width: 24%;
+    height: 30px;
+    line-height: 32px;
+    padding: 10px 20px;
+    position: fixed;
+    top: 10px;
+    left: 38%;
+    z-index: 2;
+  }
+
+  .el-scrollbar__view {
+    height: 100%;
+  }
+
+
   .el-scrollbar__wrap {
     overflow-x: hidden;
-  }
-
-  .header, .footer {
-    background-color: #fff;
-    color: #979898;
-    line-height: 60px;
-    height: 60px;
-  }
-
-  .main {
-    background-color: #F9F9F9;
-    color: #333;
-    text-align: center;
-    line-height: 160px;
-    min-height: calc(100% - 120px);
   }
 </style>

@@ -4,6 +4,8 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state = {
+  network:true,
+  token:localStorage.getItem('token') ? localStorage.getItem('token'):'',
   asideIsCollapse:false,
   screenWidth: document.documentElement.clientWidth
 }
@@ -17,6 +19,17 @@ const mutations = {
   },
   setScreenWidth(state,sWidth){
     state.screenWidth = sWidth;
+  },
+  changeNetwork(state,bool){
+    state.network =bool;
+  },
+  setToken(state, value) { // 设置存储token
+    state.token = value;
+    localStorage.setItem('token', value);
+  },
+  removeStorage(state, value){  // 删除token
+    state.token = "";
+    localStorage.removeItem('token');
   }
 }
 

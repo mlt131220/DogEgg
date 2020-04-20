@@ -42,4 +42,8 @@ return [
     'default_jsonp_handler' => 'jsonpReturn',
     // 默认JSONP处理方法
     'var_jsonp_handler'     => 'callback',
+    'middleware'=>[
+        \think\middleware\AllowCrossDomain::class,
+        app\middleware\CheckToken::class
+    ]
 ];

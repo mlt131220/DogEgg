@@ -4,10 +4,12 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import ElementUI from 'element-ui';
+import Api from './services/api';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
 
 Vue.config.productionTip = false; //生产环境提示，这里设置成了false
+Vue.prototype.$ajax = Api; // 将api挂载到vue的原型上
 
 Vue.use(ElementUI);
 
