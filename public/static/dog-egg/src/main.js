@@ -7,11 +7,25 @@ import ElementUI from 'element-ui';
 import Api from './services/api';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
+import NProgress from 'nprogress' // nprogress插件
+import 'nprogress/nprogress.css' // nprogress样式
+
+Vue.use(ElementUI);
 
 Vue.config.productionTip = false; //生产环境提示，这里设置成了false
 Vue.prototype.$ajax = Api; // 将api挂载到vue的原型上
 
-Vue.use(ElementUI);
+NProgress.configure({ showSpinner: false }) //只关闭进度环
+
+router.beforeEach((to, from, next) =>{ //进度条开始
+  NProgress.start();
+  next();
+})
+
+router.afterEach(()=>{
+  NProgress.done();
+})
+
 
 /* eslint-disable no-new */
 new Vue({

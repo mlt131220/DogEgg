@@ -1,7 +1,54 @@
 import axios from 'axios';
-import {Message} from "element-ui";
+import {Message,Loading} from "element-ui";
 import store from '@/vuex/store';
 import router from '../router';
+
+/**
+ * 全局设置loading
+ *定义loading变量
+ */
+let loading
+
+/**
+ * * 全局设置loading
+ * 使用Element loading-start 方法
+ */
+function startLoading() {    //
+  loading = Loading.service({
+    lock: true,
+    text: '加载中……',
+    background: 'rgba(0, 0, 0, 0.7)'
+  })
+}
+/**
+ * * 全局设置loading
+ * 使用Element loading-close 方法
+ */
+function endLoading() {
+  loading.close()
+}
+
+/**
+ * showFullScreenLoading() tryHideFullScreenLoading() 将同一时刻的请求合并。
+ * 声明一个变量 needLoadingRequestCount，每次调用showFullScreenLoading方法 needLoadingRequestCount + 1。
+ * 调用tryHideFullScreenLoading()方法，needLoadingRequestCount - 1。needLoadingRequestCount为 0 时，结束 loading。
+ */
+let needLoadingRequestCount = 0
+export function showFullScreenLoading() {
+  if (needLoadingRequestCount === 0) {
+    startLoading()
+  }
+  needLoadingRequestCount++
+}
+export function tryHideFullScreenLoading() {
+  if (needLoadingRequestCount <= 0) return
+  needLoadingRequestCount--
+  if (needLoadingRequestCount === 0) {
+    endLoading()
+  }
+}
+
+
 
 /**
  * 提示函数
@@ -73,6 +120,7 @@ instance.interceptors.request.use(
     // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
     const token = store.state.token;
     token && (config.headers.Authorization = token);
+    showFullScreenLoading();
     return config;
   },
   error => Promise.error(error))
@@ -80,12 +128,21 @@ instance.interceptors.request.use(
 // 响应拦截器
 instance.interceptors.response.use(
   // 请求成功
-  res => res.status === 200 ? Promise.resolve(res) : Promise.reject(res),
+  res=>{
+    if (res.status === 200){
+      tryHideFullScreenLoading();
+      return Promise.resolve(res)
+    }else{
+      return Promise.reject(res);
+    }
+  },
+  // res => res.status === 200 ? tryHideFullScreenLoading();Promise.resolve(res) : Promise.reject(res),
   // 请求失败
   error => {
     const { response } = error;
     if (response) {
       // 请求已发出，但是不在2xx的范围
+      tryHideFullScreenLoading();
       errorHandle(response.status, response.data.message);
       return Promise.reject(response);
     } else {
