@@ -65,6 +65,17 @@
     z-index: 2;
   }
 
+
+  .el-submenu .el-menu,
+  .el-submenu .el-menu div,
+  .el-submenu .el-menu div li{
+    background: #1F2D3D !important;
+  }
+
+  .el-submenu .el-menu div li:hover{
+    background: #001528 !important;
+  }
+
   .el-scrollbar__view {
     height: 100%;
   }
@@ -72,5 +83,10 @@
 
   .el-scrollbar__wrap {
     overflow-x: hidden;
+  }
+
+  #nprogress .bar {
+    background: deepskyblue !important;
+    height: 3px !important;
   }
 </style>

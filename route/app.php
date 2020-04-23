@@ -17,3 +17,6 @@ Route::group('/token',function (){
    Route::get('401','token/token401');
 });
 
+Route::group('/admin',function (){
+    Route::get('get_menu','admin/getMenu');
+});

@@ -1,26 +1,27 @@
 <template>
   <div style="height: 100%">
-      <el-row type="flex">
-        <el-col class="hidden-sm-and-down" :span="asideIsCollapse ? 1 : 3">
-          <Aside></Aside>
-        </el-col>
-        <el-col :span="screenWidth > 991 ? (asideIsCollapse ? 23 : 21) : 24">
-          <div class="container">
-            <div class="header">
-              <Header v-if="screenWidth > 991"></Header>
-              <Aside v-else></Aside>
-            </div>
-            <div class="main">
-            </div>
-            <div class="footer">
-              © 2020
-              <a href="#"><strong>狗蛋是只喵</strong> </a>
-              design by
-              <a href="https://github.com/mlt131220" target="_blank">二三</a>
-            </div>
+    <el-row type="flex">
+      <el-col class="hidden-sm-and-down" :span="asideIsCollapse ? 1 : 3">
+        <Aside></Aside>
+      </el-col>
+      <el-col :span="screenWidth > 991 ? (asideIsCollapse ? 23 : 21) : 24">
+        <div class="container">
+          <div class="header">
+            <Header v-if="screenWidth > 991"></Header>
+            <Aside v-else></Aside>
           </div>
-        </el-col>
-      </el-row>
+          <div class="main">
+            <router-view></router-view>
+          </div>
+          <div class="footer">
+            © 2020
+            <a href="#"><strong>狗蛋是只喵</strong> </a>
+            design by
+            <a href="https://github.com/mlt131220" target="_blank">二三</a>
+          </div>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -30,7 +31,7 @@
   import Header from './Header'
 
   export default {
-    name: 'index',
+    name: 'Admin',
     data() {
       return {}
     },

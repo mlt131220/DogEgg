@@ -7,7 +7,8 @@ const state = {
   network:true,
   token:localStorage.getItem('token') ? localStorage.getItem('token'):'',
   asideIsCollapse:false,
-  screenWidth: document.documentElement.clientWidth
+  screenWidth: document.documentElement.clientWidth,
+
 }
 
 const mutations = {

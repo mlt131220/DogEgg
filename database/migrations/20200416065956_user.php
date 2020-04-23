@@ -12,7 +12,7 @@ class User extends Migrator
             ->addColumn('password', 'string',array('limit'  =>  33,'default'=>'','comment'=>'用户密码'))
             ->addColumn('last_login_time', 'timestamp',array('comment'=>'最后登录时间'))
             ->addColumn('token', 'string',array('limit' => 225,'default'=>'','comment'=>'token'))
-            ->addColumn('token_timeout', 'integer',array('limit'  =>  11,'default'=>0,'comment'=>'token过期时间戳'))
+            ->addColumn('token_timeout', 'string',array('limit'  =>  255,'comment'=>'token过期时间戳'))
             ->addTimestamps()
             ->create();
     }

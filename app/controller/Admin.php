@@ -4,9 +4,13 @@
 namespace app\controller;
 
 
-use app\BaseController;
+use app\model\AdminMenu;
 
-class Admin extends BaseController
+class Admin extends Common
 {
+    public function getMenu(){
+        $menu = new AdminMenu();
+        return $menu->returnMenu();
+    }
 
 }

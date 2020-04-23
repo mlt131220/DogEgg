@@ -102,6 +102,10 @@ const errorHandle = (status, mes) => {
     case 404:
       tip('请求的资源不存在','error');
       break;
+    // 500服务器错误
+    case 500:
+      tip('服务器错误','error');
+      break;
     default:
       tip(error.response.data.message,'error')
   }}

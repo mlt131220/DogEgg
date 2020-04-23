@@ -26,10 +26,9 @@ class Users extends Model
         if($user){
             if($user['password'] == md5($data['password'])){
                 //生成token
-                $to = new Token();
-                $token = $to->create_token($data['username']);
+                $token = Token::create_token($data['username']);
                 $user->token = $token;
-                $user->token_timeout = time() + 604800000;//有效期为1周
+                $user->token_timeout = time() + 604800;//有效期为1周
                 $res = $user->save();
                 if($res){
                     return json(['state' => 1,'message'=>'登陆成功','token'=>$token],200);

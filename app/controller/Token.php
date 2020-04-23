@@ -18,7 +18,7 @@ class Token extends Common
      * 当前时间戳+用户名+签名+随机字符串
      * @param user 用户名
      */
-    public function create_token(String $user){
+    public static function create_token(String $user){
         $str="qwertyuioasdfghjklzxcvbnm";
         $pw= "";
         for ( $i = 0; $i < 7; $i++ )

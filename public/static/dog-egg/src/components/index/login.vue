@@ -50,6 +50,7 @@
       onSubmit(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            let that =this;
             this.$ajax.login(this.form)
               .then(res=>{
                 let data = res.data;
@@ -67,7 +68,8 @@
                   });
                   store.commit('setToken',data.token);
                   setTimeout(function () {
-                    router.replace('/admin'); //进入后台
+                    const redirect = that.$route.query.redirect;
+                    redirect ? router.replace(redirect) : router.replace('/admin');
                   },1000)
                 }
               })
